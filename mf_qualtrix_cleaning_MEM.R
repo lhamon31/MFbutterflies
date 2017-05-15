@@ -1,8 +1,6 @@
 ##MF Qualtrix cleaning script
 #by Elizabeth Moore
 
-#this is a test change
-
 #load necessary packages
 library(readr)
 library(plyr)
@@ -11,10 +9,9 @@ library(tidyr)
 library(lubridate)
 
 #load data
-#before loading data, delete the first row of the qualtrix csv.
-mf<-read.csv("~/Mason Farm/Data sets/qualtrix uned.csv")
-mf<-mf[-1,]
-view(mf)
+#before loading data, maybe manually delete the first row of the qualtrix csv.
+#There should be a way to do this but...naw
+mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.5.15.2017.csv")
 
 ##cleaning data
 #Gets rid of the first row, which has nonsense import data
@@ -22,99 +19,99 @@ view(mf)
 mf<-mf[-c(1),]
 
 #rename columns to R friendly format using plyr package
-mf<-rename(mf, c("Swallowtails - Eastern Tiger Swallowtail (Papilio glaucus) - Number Seen"="Pap.glaucus",
-                 "Swallowtails - Spicebush Swallowtail (Papilio troilus) - Number Seen"="Pap.troilus",
-                 "Swallowtails - Pipevine Swallowtail (Battus philenor) - Number Seen"="Bat.philenor",
-                 "Swallowtails - Black Swallowtail (Papilio polyxenes) - Number Seen"="Pap.polyxenes",
-                 "Swallowtails - Zebra Swallowtail (Eurytides marcellus) - Number Seen"="Eur.marcellus"))
+mf<-rename(mf, c("Swallowtails - Eastern Tiger Swallowtail (Papilio glaucus) - Number Seen"="Papilio glaucus",
+                 "Swallowtails - Spicebush Swallowtail (Papilio troilus) - Number Seen"="Papilio troilus",
+                 "Swallowtails - Pipevine Swallowtail (Battus philenor) - Number Seen"="Battus philenor",
+                 "Swallowtails - Black Swallowtail (Papilio polyxenes) - Number Seen"="Papilio polyxenes",
+                 "Swallowtails - Zebra Swallowtail (Eurytides marcellus) - Number Seen"="Eurytides marcellus"))
 
-mf<-rename(mf, c("Sulphurs - Cloudless Sulphur (Phoebis sennae) -"="Pho.sennae",
-                 "Sulphurs - Clouded Sulphur(Colia philodice) -"="Col.philodice",
-                 "Sulphurs - Orange Sulphur (Colias eurythme) -"="Col.eurythme",
-                 "Sulphurs - Sleepy Orange (Abaeis nicippe) -"="Aba.nicippe",
-                 "Sulphurs - Little Yellow (Pyrisita lisa) -"="Pyr.lisa",
-                 "Sulphurs - Unknown Sulphur -"="unk.sulphur"))
+mf<-rename(mf, c("Sulphurs - Cloudless Sulphur (Phoebis sennae) -"="Phoebis sennae",
+                 "Sulphurs - Clouded Sulphur(Colias philodice) -"="Colias philodice",
+                 "Sulphurs - Orange Sulphur (Colias eurythme) -"="Colias eurythme",
+                 "Sulphurs - Sleepy Orange (Abaeis nicippe) -"="Abaeis nicippe",
+                 "Sulphurs - Little Yellow (Pyrisita lisa) -"="Pyrisita lisa",
+                 "Sulphurs - Unknown Sulphur -"="Unknown sulphur"))
 
-mf<-rename(mf, c("Whites - Cabbage White (Pieris rapae) -"="Pie.rapae",
-                 "Whites - Falcate Orangetip (Anthocaris midea) -"="Ant.midea",
-                 "Whites - Checkered White (Pontia protodice) -"="Pon.protodice"))
+mf<-rename(mf, c("Whites - Cabbage White (Pieris rapae) -"="Pieris rapae",
+                 "Whites - Falcate Orangetip (Anthocharis midea) -"="Anthocharis midea",
+                 "Whites - Checkered White (Pontia protodice) -"="Pontia protodice"))
 
-mf<-rename(mf, c("Harvesters and Woolly Legs - Harvester (Feniseca tarquinis) -"="Fen.tarquinis",
-                 "Blues - Eastern Tailed-blue (Cupido comyntas) -"="Cup.comyntas",
-                 "Blues - Summer Azure (Celastrina neglecta) -"="Cel.neglecta",
-                 "Blues - Spring Azure (Celastrina ladon) -"="Cel.ladon",
-                 "Blues - Unknown Blue -"="unk.blue",
-                 "Hairstreaks - Grey Hairstreak (Strymon melinus) -"="Sty.melinus",
-                 "Hairstreaks - Red-banded Hairstreak (Calycopsis cecrops) -"="Cal.cecrops",
-                 "Hairstreaks - Juniper Hairstreak (Mitoura gryneus) -"="Mit.gryneus",
-                 "Hairstreaks - Henrys Elfin (Callophrys henrici) -"="Cal.henrici",
-                 "Hairstreaks - Banded Hairstreak (Satyrium calanus) -"="Sat.calanus",
-                 "Hairstreaks - Great Purple Hairstreak (Atlides halesus) -"="Atl.halesus",
-                 "Hairstreaks - White-M Hairstreak (Parrhasius m-album) -"="Par.m-album",
-                 "Hairstreaks - Eastern Pine Elfin (Callphrys niphon) -"="Cal.niphon",
-                 "Hairstreaks - Coral Hairstreak (Satyrium titus) -"="Sat.titus",
-                 "Hairstreaks - Oak Hairstreak(Satyrium favonus) -"="Sat.favonus",
-                 "Hairstreaks - Striped Hairstreak (Satyrium liparops) -"="Sat.liparops"))
+mf<-rename(mf, c("Harvesters and Woolly Legs - Harvester (Feniseca tarquinis) -"="Feniseca tarquinis",
+                 "Blues - Eastern Tailed-blue (Cupido comyntas) -"="Cupido comyntas",
+                 "Blues - Summer Azure (Celastrina neglecta) -"="Celastrina neglecta",
+                 "Blues - Spring Azure (Celastrina ladon) -"="Celastrina ladon",
+                 "Blues - Unknown Blue -"="Unknown blue",
+                 "Hairstreaks - Grey Hairstreak (Strymon melinus) -"="Strymon melinus",
+                 "Hairstreaks - Red-banded Hairstreak (Calycopis cecrops) -"="Calycopis cecrops",
+                 "Hairstreaks - Juniper Hairstreak (Mitoura gryneus) -"="Mitoura gryneus",
+                 "Hairstreaks - Henrys Elfin (Callophrys henrici) -"="Callophrys henrici",
+                 "Hairstreaks - Banded Hairstreak (Satyrium calanus) -"="Satyrium calanus",
+                 "Hairstreaks - Great Purple Hairstreak (Atlides halesus) -"="Atlides halesus",
+                 "Hairstreaks - White-M Hairstreak (Parrhasius m-album) -"="Parrhasius m-album",
+                 "Hairstreaks - Eastern Pine Elfin (Callophrys niphon) -"="Callophrys niphon",
+                 "Hairstreaks - Coral Hairstreak (Satyrium titus) -"="Satyrium titus",
+                 "Hairstreaks - Oak Hairstreak(Satyrium favonus) -"="Satyrium favonus",
+                 "Hairstreaks - Striped Hairstreak (Satyrium liparops) -"="Satyrium liparops"))
 
-mf<-rename(mf, c("Emperors - Hackberry Emperor (Asterocampa celtis) -"="Ast.celtis",
-                 "Emperors - Tawny Emperor (Asterocampa clyton) -"="Ast.clyton",
-                 "Milkweed Butterflies - Monarch (Danaus plexippus) -"="Dan.plexippus",
-                 "Heliconians and Fritillaries - Great-spangled Fritillary (Speyeria cybele) -"="Spe.cybele",
-                 "Heliconians and Fritillaries - Variegated Fritillary (Euptoieta claudia) -"="Eup.claudia",
-                 "Heliconians and Fritillaries - Gulf Fritillary (Agraulis vanillae) -"="Agr.vanillae",
-                 "Snout Butterflies - American Snout (Libytheana carinenta) -"="Lib.carinenta",
-                 "Admirals - Red-Spotted Purple (Limenitis artemis astyanax) -"="Lim.artemis.ast",
-                 "Admirals - Viceroy (Limenitis archippus) -"="Lim.archippus"))
+mf<-rename(mf, c("Emperors - Hackberry Emperor (Asterocampa celtis) -"="Asterocampa celtis",
+                 "Emperors - Tawny Emperor (Asterocampa clyton) -"="Asterocampa clyton",
+                 "Milkweed Butterflies - Monarch (Danaus plexippus) -"="Danaus plexippus",
+                 "Heliconians and Fritillaries - Great-spangled Fritillary (Speyeria cybele) -"="Speyeria cybele",
+                 "Heliconians and Fritillaries - Variegated Fritillary (Euptoieta claudia) -"="Euptoieta claudia",
+                 "Heliconians and Fritillaries - Gulf Fritillary (Agraulis vanillae) -"="Agraulis vanillae",
+                 "Snout Butterflies - American Snout (Libytheana carinenta) -"="Libytheana carinenta",
+                 "Admirals - Red-Spotted Purple (Limenitis artemis astyanax) -"="Limenitis artemis astyanax",
+                 "Admirals - Viceroy (Limenitis archippus) -"="Limenitis archippus"))
 
-mf<-rename(mf, c("True Brush-foots - Pearl Crescent (Phyciodes tharos) -"="Phy.tharos",
-                 "True Brush-foots - Common Buckeye (Junonia coenia) -"="Jun.coenia",
-                 "True Brush-foots - Red Admiral (Vanessa atalanta) -"="Van.atalanta",
-                 "True Brush-foots - Question Mark (Polygonia interrogationis) -"="Pol.interrogationis",
-                 "True Brush-foots - Eastern Comma (Polygonia comma) -"="Pol.comma",
-                 "True Brush-foots - Mourning Cloak (Nymphalis antiopa) -"="Nym.antiopa",
-                 "True Brush-foots - American Lady (Vanessa virginiensis) -"="Van.virginiensis",
-                 "True Brush-foots - Painted Lady (Vanessa cardui) -"="Van.cardui",
-                 "True Brush-foots - Silvery Checkerspot (Chlosyne nycteis) -"="Chl.nycteis"))
+mf<-rename(mf, c("True Brush-foots - Pearl Crescent (Phyciodes tharos) -"="Phyciodes tharos",
+                 "True Brush-foots - Common Buckeye (Junonia coenia) -"="Junonia coenia",
+                 "True Brush-foots - Red Admiral (Vanessa atalanta) -"="Vanessa atalanta",
+                 "True Brush-foots - Question Mark (Polygonia interrogationis) -"="Polygonia interrogationis",
+                 "True Brush-foots - Eastern Comma (Polygonia comma) -"="Polygonia comma",
+                 "True Brush-foots - Mourning Cloak (Nymphalis antiopa) -"="Nymphalis antiopa",
+                 "True Brush-foots - American Lady (Vanessa virginiensis) -"="Vanessa virginiensis",
+                 "True Brush-foots - Painted Lady (Vanessa cardui) -"="Vanessa cardui",
+                 "True Brush-foots - Silvery Checkerspot (Chlosyne nycteis) -"="Chlosyne nycteis"))
 
-mf<-rename(mf, c("Satyrs - Carolina Satyr (Hermeuptychia sosybius) -"="Her.sosybius",
-                 "Satyrs - Gemmed Satyr (Cyllopsis gemma) -"="Cyl.gemma",
-                 "Satyrs - Little Wood-Satyr (Megisto cymela) -"="Meg.cymela",
-                 "Satyrs - Common Wood-nymph (Cercyonis pegala) -"="Cer.pegala",
-                 "Satyrs - Northern Pearly-eye (Lethe anthedon) -"="Let.anthedon",
-                 "Satyrs - Appalachian Brown (Lethe appalachia) -"="Let.appalachia",
-                 "Satyrs - Unknown Satyr -"="unk.satyr"))
+mf<-rename(mf, c("Satyrs - Carolina Satyr (Hermeuptychia sosybius) -"="Hermeuptychia sosybius",
+                 "Satyrs - Gemmed Satyr (Cyllopsis gemma) -"="Cyllopsis gemma",
+                 "Satyrs - Little Wood-Satyr (Megisto cymela) -"="Megisto cymela",
+                 "Satyrs - Common Wood-nymph (Cercyonis pegala) -"="Cercyonis pegala",
+                 "Satyrs - Northern Pearly-eye (Lethe anthedon) -"="Lethe anthedon",
+                 "Satyrs - Appalachian Brown (Lethe appalachia) -"="Lethe appalachia",
+                 "Satyrs - Unknown Satyr -"="Unknown satyr"))
 
-mf<-rename(mf, c("Grass Skippers - Sachem (Atalopedes campestris) -"="Ata.campestris",
-                 "Grass Skippers - Clouded Skipper (Lerema accius) -"="Ler.accius",
-                 "Grass Skippers - Zabulon Skipper (Poanes zabulon) -"="Poa.zabulon",
-                 "Grass Skippers - Crossline Skipper (Polites origenes) -"="Pol.origenes",
-                 "Grass Skippers - Little Glassywing (Pompeius verna) -"="Pom.verna",
-                 "Grass Skippers - Dun Skipper (Euphyes vestris) -"="Eup.vestris",
-                 "Grass Skippers - Least Skipper (Anclyoxypha numitor) -"="Anc.numitor",
-                 "Grass Skippers - Southern Broken-Dash (Wallengrenia otho) -"="Wal.otho",
-                 "Grass Skippers - Fiery Skipper (Hylephila phyleus) -"="Hyl.phyleus",
-                 "Grass Skippers - Northern Broken-Dash (Wallengrenia egeremet) -"="Wal.egeremet",
-                 "Grass Skippers - Ocola Skipper (Panoquina ocola) -"="Pan.ocola",
-                 "Grass Skippers - Swarthy Skipper (Nastra lherminier) -"="Nas.iherminier",
-                 "Grass Skippers - Common Roadside-Skipper (Amblyscirtes vialis) -"="Amb.vialis",
-                 "Grass Skippers - Delaware Skipper (Anatrytone logan) -"="Ana.logan",
-                 "Grass Skippers - Dusted Skipper (Atrytonopsis hianna) -"="Atr.hianna",
-                 "Grass Skippers - Tawny-Edged Skipper (Polites themistocles) -"="Pol.themistocles",
-                 "Grass Skippers - Dion Skipper (Euphyes dion) -"="Eup.dion",
-                 "Grass Skippers - Unknown Grass Skipper -"="unk.grass.skipper"))
+mf<-rename(mf, c("Grass Skippers - Sachem (Atalopedes campestris) -"="Atalopedes campestris",
+                 "Grass Skippers - Clouded Skipper (Lerema accius) -"="Lerema accius",
+                 "Grass Skippers - Zabulon Skipper (Poanes zabulon) -"="Poanes zabulon",
+                 "Grass Skippers - Crossline Skipper (Polites origenes) -"="Polites origenes",
+                 "Grass Skippers - Little Glassywing (Pompeius verna) -"="Pompeius verna",
+                 "Grass Skippers - Dun Skipper (Euphyes vestris) -"="Euphyes vestris",
+                 "Grass Skippers - Least Skipper (Anclyoxypha numitor) -"="Anclyoxypha numitor",
+                 "Grass Skippers - Southern Broken-Dash (Wallengrenia otho) -"="Wallengrenia otho",
+                 "Grass Skippers - Fiery Skipper (Hylephila phyleus) -"="Hylephila phyleus",
+                 "Grass Skippers - Northern Broken-Dash (Wallengrenia egeremet) -"="Wallengrenia egeremet",
+                 "Grass Skippers - Ocola Skipper (Panoquina ocola) -"="Panoquina ocola",
+                 "Grass Skippers - Swarthy Skipper (Nastra lherminier) -"="Nastra lherminier",
+                 "Grass Skippers - Common Roadside-Skipper (Amblyscirtes vialis) -"="Amblyscirtes vialis",
+                 "Grass Skippers - Delaware Skipper (Anatrytone logan) -"="Anatrytone logan",
+                 "Grass Skippers - Dusted Skipper (Atrytonopsis hianna) -"="Atrytonopsis hianna",
+                 "Grass Skippers - Tawny-Edged Skipper (Polites themistocles) -"="Polites themistocles",
+                 "Grass Skippers - Dion Skipper (Euphyes dion) -"="Euphyes dion",
+                 "Grass Skippers - Unknown Grass Skipper -"="Unknown grass skipper"))
 
 
-mf<-rename(mf, c("Spread-wing Skippers - Silver-spotted Skipper (Epargyreus clarus) -"="Epa.clarus",
-                 "Spread-wing Skippers - Juvenals Duskywing (Erynnis juvenalis) -"="Ery.juvenalis",
-                 "Spread-wing Skippers - Horaces Duskywing (Erynnis horatius) -"="Ery.horatius",
-                 "Spread-wing Skippers - Northern Cloudywing (Thorybes pylades) -"="Tho.pylades",
-                 "Spread-wing Skippers - Southern Cloudywing (Thorybes bathyllus) -"="Tho.bathyllus",
-                 "Spread-wing Skippers - Common Checkered-Skipper (Pyrgus communis) -"="Pyr.communis",
-                 "Spread-wing Skippers - Sleepy Duskywing (Erynnis brizo) -"="Ery.brizo",
-                 "Spread-wing Skippers - Long-tailed Skipper (Urbanus proteus) -"="Urb.proteus",
-                 "Spread-wing Skippers - Wild Indigo Duskywing (Erynnis baptisiae) -"="Ery.baptisiae",
-                 "Spread-wing Skippers - Zarucco Duskywing (Erynnis zarucco) -"="Ery.zarucco",
-                 "Spread-wing Skippers - Unknown Spread-wing Skipper -"="unk.spreadwing.skipper",
+mf<-rename(mf, c("Spread-wing Skippers - Silver-spotted Skipper (Epargyreus clarus) -"="Epargyreus clarus",
+                 "Spread-wing Skippers - Juvenals Duskywing (Erynnis juvenalis) -"="Erynnis juvenalis",
+                 "Spread-wing Skippers - Horaces Duskywing (Erynnis horatius) -"="Erynnis horatius",
+                 "Spread-wing Skippers - Northern Cloudywing (Thorybes pylades) -"="Thorybes pylades",
+                 "Spread-wing Skippers - Southern Cloudywing (Thorybes bathyllus) -"="Thorybes bathyllus",
+                 "Spread-wing Skippers - Common Checkered-Skipper (Pyrgus communis) -"="Pyrgus communis",
+                 "Spread-wing Skippers - Sleepy Duskywing (Erynnis brizo) -"="Erynnis brizo",
+                 "Spread-wing Skippers - Long-tailed Skipper (Urbanus proteus) -"="Urbanus proteus",
+                 "Spread-wing Skippers - Wild Indigo Duskywing (Erynnis baptisiae) -"="Erynnis baptisiae",
+                 "Spread-wing Skippers - Zarucco Duskywing (Erynnis zarucco) -"="Erynnis zarucco",
+                 "Spread-wing Skippers - Unknown Spread-wing Skipper -"="Unknown spreadwing skipper",
                  "Unknown Species -"="unk.sp","Other species ( Fill in species name) - Other - Text"="other.sp.name",
                  "Other species ( Fill in species name) - Other -"="other.sp.num"))
 
