@@ -112,7 +112,7 @@ mf<-rename(mf, c("Spread.wing.Skippers...Silver.spotted.Skipper..Epargyreus.clar
                  "Spread.wing.Skippers...Wild.Indigo.Duskywing..Erynnis.baptisiae..."="Erynnis baptisiae",
                  "Spread.wing.Skippers...Zarucco.Duskywing..Erynnis.zarucco..."="Erynnis zarucco",
                  "Spread.wing.Skippers...Unknown.Spread.wing.Skipper.."="Unknown spreadwing skipper",
-                 "Unknown.Species.."="unk.sp","Other species..Fill in species name...Other..Text"="other.sp.name",
+                 "Unknown.Species.."="unk.sp","Other species..Fill.in.species.name...Other..Text."="other.sp.name",
                  "Other.species...Fill.in.species.name...Other.."="other.sp.num"))
 
 
@@ -137,9 +137,8 @@ mf<-rename(mf, c("Start.Date"="start.date",
 
 ##gets rid of weird creepy Latin
 #finds rows that have more than 10 characters and deletes them
-#MEM set it to look for this in one of the butterfly count columns
-#since it's not likely we would see a billion butterflies
-mf<-mf[!nchar(as.character(mf$Pap.glaucus))>10,]
+#set to look for this in date observed column
+mf<-mf[!nchar(as.character(mf$date.observed))>10,]
 
 #splits up observer names and puts into observer 1, observer 2 etc:
 #gsub replaces the first argument with the second
