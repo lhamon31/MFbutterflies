@@ -244,7 +244,7 @@ longdat<-reshape(alldat,
                             "Erynnis.brizo", "Urbanus.proteus", "Erynnis.baptisiae", 
                             "Erynnis.zarucco", "Unknown.spreadwing.skipper", "unk.sp",
                             "other.sp.name", "other.sp.num"),
-                 v.names="number",
+                 v.names="num.indv",
                  timevar="species",
                  times = c("Papilio.glaucus", "Papilio.troilus", "Battus.philenor",
                            "Papilio.polyxenes", "Eurytides.marcellus", "Phoebis.sennae",  
@@ -274,6 +274,7 @@ longdat<-reshape(alldat,
                            "Thorybes.pylades", "Thorybes.bathyllus", "Pyrgus.communis",
                            "Erynnis.brizo", "Urbanus.proteus", "Erynnis.baptisiae", 
                            "Erynnis.zarucco", "Unknown.spreadwing.skipper", "unk.sp"),
+                 new.row.names=1:208,
                  direction="long") 
 
 #write the cleaned data frame to a csv file
