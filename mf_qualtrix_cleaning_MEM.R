@@ -145,11 +145,11 @@ mf<-mf[!nchar(as.character(mf$date.observed))>10,]
 #makes everything uniform in syntax so that str_split_fixed can split the columns.
 #In this case MEM used "and", and had to finagle the gsubs for the specific syntax of each entry.
 #can be altered depending on syntax of column.
-mf$obs.name<- gsub("&", " and",mf$obs.name)
-mf$obs.name<- gsub(", and", ",",mf$obs.name)
-mf$obs.name<- gsub(",", " and",mf$obs.name)
+mf$observer.name<- gsub("&", " and",mf$observer.name)
+mf$observer.name<- gsub(", and", ",",mf$observer.name)
+mf$observer.name<- gsub(",", " and",mf$observer.name)
 
-obs<-str_split_fixed(mf$obs.name, c("and"), 3)
+obs<-str_split_fixed(mf$observer.name, c("and"), 3)
 
 mf$obs1<-obs[,1]
 mf$obs2<-obs[,2]
@@ -191,11 +191,15 @@ mf$obs1.in
 #might be ok to stay in POSX, as there are some handy ways to extract info from columns within class.
 mf$start.date<-parse_date_time(mf$start.date,orders='mdy_HM',tz="America/New_York")
 mf$end.date<-parse_date_time(mf$end.date,orders='mdy_HM',tz="America/New_York")
-mf$rec.date<-parse_date_time(mf$rec.date,orders='mdy_HM',tz="America/New_York")
-mf$date.obs<-parse_date_time(mf$date.obs,orders='mdy') 
+mf$recorded.date<-parse_date_time(mf$recorded.date,orders='mdy_HM',tz="America/New_York")
+  #have to eliminate non-date values for this last one. yeahI know there's a quicker way
+  mf$date.observed[mf$date.observed == "d"] <- NA
+  mf$date.observed[mf$date.observed=="test"] <- NA
+  mf$date.observed[mf$date.observed==""] <- NA
+mf$date.observed<-parse_date_time(mf$date.observed,orders='mdy') 
 
 #creates a column with just the year of observation
-mf$year<-year(mf$date.obs)
+mf$year<-year(mf$date.observed)
 mf$year
 
 #creates a column with only the month
