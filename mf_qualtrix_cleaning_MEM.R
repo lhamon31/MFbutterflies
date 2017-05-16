@@ -17,7 +17,7 @@ mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qua
 ##cleaning data
 #Gets rid of the first row, which has nonsense import data
 #(ask elizabeth if this is the same as the aformentioned row deletion)
-mf<-mf[-c(1),]
+mf<-mf[-1,] 
 
 #rename columns to R friendly format using plyr package
 mf<-rename(mf, c("Swallowtails...Eastern.Tiger.Swallowtail..Papilio.glaucus....Number.Seen" = "Papilio.glaucus",
@@ -135,6 +135,46 @@ mf<-rename(mf, c("Start.Date"="start.date",
                  "Start.time..ex..09.00AM...optional."="start.time",
                  "End.time..ex..12.00PM...optional."="end.time",
                  "How.would.you.rate.your.experience.level.in.identifying.butterflies."="self.rate"))
+
+#hey here's another way
+names(mf)<-c("start.date", "end.date", "response.type", "ip.address", 
+                 "progress", "duration.sec","finished","recorded.date",
+                 "response.id", "recipient.last.name", "recipient.first.name",
+                 "recipient.email", "external.data.reference","location.lat",
+                  "location.long", "distribution.channel", "observer.name",
+                 "number.of.observers", "entry.name", "observation.date",
+                 "temp", "conditions", 
+                 "start", "end", "Papilio.glaucus", "Papilio.troilus", "Battus.philenor",
+                 "Papilio.polyxenes", "Eurytides.marcellus", "Phoebis.sennae",  
+                 "Colias.philodice", "Colias.eurythme", "Abaeis.nicippe",
+                 "Pyrisita.lisa", "Unknown.sulphur", "Pieris.rapae", "Anthocharis.midea",
+                 "Pontia.protodice", "Feniseca.tarquinis", "Cupido.comyntas",
+                 "Celastrina.neglecta", "Celastrina.ladon","Unknown blue",
+                 "Strymon.melinus", "Calycopis.cecrops", "Mitoura.gryneus",
+                 "Callophrys.henrici", "Satyrium.calanus", "Atlides.halesus",
+                 "Parrhasius.m.album", "Callophrys.niphon", "Satyrium.titus",
+                 "Satyrium.favonus", "Satyrium.liparops", "Asterocampa.celtis",
+                 "Asterocampa.clyton", "Danaus.plexippus", "Speyeria.cybele",
+                 "Euptoieta.claudia", "Agraulis.vanillae", "Libytheana.carinenta",
+                 "Limenitis.artemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
+                 "Junonia.coenia", "Vanessa.atalanta", "Polygonia.interrogationis",
+                 "Polygonia.comma", "Nymphalis.antiopa", "Vanessa.virginiensis",
+                 "Vanessa.cardui", "Chlosyne.nycteis", "Hermeuptychia.sosybius",
+                 "Cyllopsis.gemma", "Megisto.cymela", "Cercyonis.pegala",
+                 "Lethe.anthedon", "Lethe.appalachia", "Unknown satyr",
+                 "Atalopedes.campestris", "Lerema.accius", "Poanes.zabulon",
+                 "Polites.origenes", "Pompeius.verna", "Euphyes.vestris",
+                 "Anclyoxypha.numitor", "Wallengrenia otho", "Hylephila.phyleus",
+                 "Wallengrenia.egeremet", "Panoquina.ocola", "Nastra.lherminier",
+                 "Amblyscirtes.vialis", "Anatrytone.logan", "Atrytonopsis.hianna",
+                 "Polites.themistocles", "Euphyes.dion", "Unknown.grass.skipper",
+                 "Epargyreus.clarus", "Erynnis.juvenalis", "Erynnis.horatius",
+                 "Thorybes.pylades", "Thorybes.bathyllus", "Pyrgus.communis",
+                 "Erynnis.brizo", "Urbanus.proteus", "Erynnis.baptisiae", 
+                 "Erynnis.zarucco", "Unknown.spreadwing.skipper", "unknown.sp",
+                 "other.sp.text.1", "other.sp.num.1","other.sp.text.2", "other.sp.num.2",
+                 "other.sp.text.3", "other.sp.num.3","other.sp.text.4", "other.sp.num.4",
+                 "other.sp.text.5", "other.sp.num.5","topics")
 
 ##gets rid of weird creepy Latin
 #finds rows that have more than 10 characters and deletes them
