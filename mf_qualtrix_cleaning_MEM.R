@@ -211,9 +211,12 @@ longdat<-reshape(mf,
                            "Thorybes.pylades", "Thorybes.bathyllus", "Pyrgus.communis",
                            "Erynnis.brizo", "Urbanus.proteus", "Erynnis.baptisiae", 
                            "Erynnis.zarucco", "Unknown.spreadwing.skipper", "Unknown.species"),
+                 new.row.names=1:4165, #i know there's a way to make an arbitrary end
                  direction="long") 
 
-#things are still weird as to where stuff goes
+#it would be good to reorder the columns now
+#and to maybe put the ones we don't like at the end
+#or to eliminate them completely
 
 #write the cleaned data frame to a csv file
 #row.names=FALSE prevents it from having an extra row with just numbers.
