@@ -116,24 +116,24 @@ mf<-rename(mf, c("Spread.wing.Skippers...Silver.spotted.Skipper..Epargyreus.clar
                  "Other.species...Fill.in.species.name...Other.."="other.sp.num"))
 
 
-mf<-rename(mf, c("Start Date"="start.date",
-                 "End Date"="end.date",
-                 "Response Type"="resp.type",
-                 "IP Address"="ip.add",
-                 "Duration (in seconds)"="dur.sec",
-                 "Recorded Date"="rec.date",
-                 "Recipient Last Name"="last.name1",
-                 "Recipient First Name"="first.name1",
-                 "Location Latitude"="loc.lat",
-                 "Location Longitude"="loc.long",
-                 "Observer name(s):"="obs.name",
-                 "If you are entering these observations for someone else, what is your name?"="enter.name",
-                 "Date observed (MM/DD/YYYY)"="date.obs",
-                 "Temperature (F) (optional)"="tempf",
-                 "Site conditions (optional)"="site.cond",
-                 "Start time (ex. 09:00AM) (optional)"="start.time",
-                 "End time (ex. 12:00PM) (optional)"="end.time",
-                 "How would you rate your experience level in identifying butterflies?"="self.rate"))
+mf<-rename(mf, c("Start.Date"="start.date",
+                 "End.Date"="end.date",
+                 "Response.Type"="response.type",
+                 "IP.Address"="ip.address",
+                 "Duration..in.seconds."="dur.sec",
+                 "Recorded.Date"="recorded.date",
+                 "Recipient.Last.Name"="last.name1",
+                 "Recipient.First.Name"="first.name1",
+                 "Location.Latitude"="location.lat",
+                 "Location.Longitude"="location.long",
+                 "Observer.name.s.."="observer.name",
+                 "If.you.are.entering.these.observations.for.someone.else..what.is.your.name."="entering.name",
+                 "Date.observed..MM.DD.YYYY."="date.observed",
+                 "Temperature..F...optional."="tempf",
+                 "Site.conditions..optional."="site.conditions",
+                 "Start.time..ex..09.00AM...optional."="start.time",
+                 "End.time..ex..12.00PM...optional."="end.time",
+                 "How.would.you.rate.your.experience.level.in.identifying.butterflies."="self.rate"))
 
 ##gets rid of weird creepy Latin
 #finds rows that have more than 10 characters and deletes them
