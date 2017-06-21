@@ -216,19 +216,50 @@ row.names(longdat)=1:nrow(longdat)
 #(also figure out what to do about unknown spp in previously dropped columsn)
 longdat <- longdat[ -c(1:13) ]
 
+#write the cleaned data frame to a csv file
+#row.names=FALSE prevents it from having an extra row with just numbers.
+#spits out the csv in whatever folder the working directory is set.
+#This is laura's working directory
+write.csv(longdat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.16.2017.cleaned.csv",row.names=FALSE)
+
 ####################################################################################
-################ADDING IN THE UBR DATA
+################ADDING IN THE UBR DATA for the purpose of comparing proportions
 ####################################################################################
+
+#subset necessary columns from qualtrics data 
+qualtrics.dat<-longdat[,c("date.observed","species","num.indv")]
 
 #load UBR files
 ubr.folder <- "C:/Users/lhamo/Documents/Biology/mf bflies 2017/ubr.data/"      # path to folder that holds multiple .csv files
 file_list <- list.files(path=ubr.folder, pattern="*.csv") # create list of all .csv files in folder
 ubr.dat <- do.call("rbind", lapply(file_list, function(x)read.csv(paste(ubr.folder, x, sep=''), 
                             stringsAsFactors = FALSE)))
-#remove unnecessary columns
 
-#write the cleaned data frame to a csv file
-#row.names=FALSE prevents it from having an extra row with just numbers.
-#spits out the csv in whatever folder the working directory is set.
-#This is laura's working directory
-write.csv(longdat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.16.2017.cleaned.csv",row.names=FALSE)
+#subset necessary columns UBR dat
+ubr.dat<-ubr.dat[,c("time.date", "speciesScientific")]
+#add column w/ num.indv
+ubr.dat$num.indv<-rep(1)
+#rename columns
+names(ubr.dat)<-c("date.observed","species","num.indv")
+
+#trying to get the the species names formatted the same way
+#removing incompatible/unknown names in ubr data
+ubr.dat<-ubr.dat[ ! ubr.dat$species %in% c("?Erynnis horatius","fritillary","black skipper","duskywing","snout", "cymela","blue","skipper","Pearl crescent?","polygonia","papilio","enodia","unknown"), ]
+#removing incompatible/unknown names in qualtrics data
+qualtrics.dat<-qualtrics.dat[ ! qualtrics.dat$species %in% c("Unknown.blue","Unknown.satyr","Unknown.grass.skipper","Unknown.species","Unknown.sulphur", "Unknown.spreadwing.skipper"), ]
+#omit rows in no date in qualtrics data
+qualtrics.dat<-na.omit(qualtrics.dat)
+#make all characters lowercase in both datasets
+ubr.dat<-data.frame(lapply(ubr.dat, function(v) {
+  if (is.character(v)) return(tolower(v))
+  else return(v)
+}))
+qualtrics.dat<-data.frame(lapply(qualtrics.dat, function(v) {
+  if (is.character(v)) return(tolower(v))
+  else return(v)
+}))
+#replace space w/ period in ubr data
+ubr.dat$species<-gsub(" ", ".", ubr.dat$species) 
+
+#rbind qualtrics dat and ubr dat
+combined.dat<-rbind(qualtrics.dat, ubr.dat)
