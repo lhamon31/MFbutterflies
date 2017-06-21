@@ -210,7 +210,7 @@ longdat<-reshape(mf,
                            "Erynnis.zarucco", "Unknown.spreadwing.skipper", "Unknown.species"),
                  direction="long") 
 
-new.row.names=1:3825 #i know there's a way to make an arbitrary end
+row.names(longdat)=1:nrow(longdat) 
 
 #it would be good to reorder the columns now
 #and to maybe put the ones we don't like at the end
