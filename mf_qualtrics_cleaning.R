@@ -212,9 +212,20 @@ longdat<-reshape(mf,
 
 row.names(longdat)=1:nrow(longdat) 
 
-#it would be good to reorder the columns now
-#and to maybe put the ones we don't like at the end
-#or to eliminate them completely
+#eliminate more non-useful columns (may be modified as necessary) 
+#(also figure out what to do about unknown spp in previously dropped columsn)
+longdat <- longdat[ -c(1:13) ]
+
+####################################################################################
+################ADDING IN THE UBR DATA
+####################################################################################
+
+#load UBR files
+ubr.folder <- "C:/Users/lhamo/Documents/Biology/mf bflies 2017/ubr.data/"      # path to folder that holds multiple .csv files
+file_list <- list.files(path=ubr.folder, pattern="*.csv") # create list of all .csv files in folder
+ubr.dat <- do.call("rbind", lapply(file_list, function(x)read.csv(paste(ubr.folder, x, sep=''), 
+                            stringsAsFactors = FALSE)))
+#remove unnecessary columns
 
 #write the cleaned data frame to a csv file
 #row.names=FALSE prevents it from having an extra row with just numbers.
