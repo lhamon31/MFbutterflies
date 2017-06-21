@@ -9,9 +9,7 @@ library(tidyr)
 library(lubridate)
 
 #load data
-#before loading data, maybe manually delete the first row of the qualtrix csv.
-#There should be a way to do this but...naw
-#this is laura's working directory
+#this is based on laura's working directory. change as needed.
 mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.16.2017.csv")
 
 ##cleaning data
@@ -130,16 +128,7 @@ mf$obs3.in<- sapply(l, function(x){
 mf$obs1.in
 
 ##formatting the date columns
-#using parse_date_time returns a POSIX class 
-#and automatically assigns coordinated universal time.
-#You have to assign east coast time zone with 'tz+"America/New_York"'
-#If you convert to date class, you lose time- there should be a way around this
-#but mem hasn't found it yet.
-#might be ok to stay in POSX, as there are some handy ways to extract info from columns within class.
-mf$start.date<-parse_date_time(mf$start.date,orders='mdy')
-mf$end.date<-parse_date_time(mf$end.date,orders='mdy_HM',tz="America/New_York")
-mf$recorded.date<-parse_date_time(mf$recorded.date,orders='mdy_HM',tz="America/New_York")
-#have to eliminate non-date values for this last one. yeahI know there's a quicker way
+#have to eliminate non-date values for this last one. yeah I know there's a quicker way
 mf$date.observed[mf$date.observed == "d"] <- NA
 mf$date.observed[mf$date.observed=="test"] <- NA
 mf$date.observed[mf$date.observed==""] <- NA
