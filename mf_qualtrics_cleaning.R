@@ -222,7 +222,7 @@ write.csv(longdat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtric
 ####################################################################################
 
 #subset necessary columns from qualtrics data 
-qualtrics.dat<-longdat[,c("date.observed","species","num.indv")]
+qualtrics.dat<-longdat[,c("species","num.indv","year")]
 
 #load UBR files
 ubr.folder <- "C:/Users/lhamo/Documents/Biology/mf bflies 2017/ubr.data/"      # path to folder that holds multiple .csv files
@@ -230,12 +230,16 @@ file_list <- list.files(path=ubr.folder, pattern="*.csv") # create list of all .
 ubr.dat <- do.call("rbind", lapply(file_list, function(x)read.csv(paste(ubr.folder, x, sep=''), 
                             stringsAsFactors = FALSE)))
 
-#subset necessary columns UBR dat
+#subset necessary columns of UBR dat
 ubr.dat<-ubr.dat[,c("time.date", "speciesScientific")]
 #add column w/ num.indv
 ubr.dat$num.indv<-rep(1)
 #rename columns
 names(ubr.dat)<-c("date.observed","species","num.indv")
+
+#convert date of ubr.dat to just year
+ubr.dat$year<-format(as.Date(ubr.dat$date.observed, format="%Y-%m-%d"),"%Y")
+ubr.dat<-ubr.dat[,c("species","num.indv","year")] #subsetting again yeah i know I made this complicated
 
 #trying to get the the species names formatted the same way
 #removing incompatible/unknown names in ubr data
@@ -258,6 +262,8 @@ ubr.dat$species<-gsub(" ", ".", ubr.dat$species)
 
 #rbind qualtrics dat and ubr dat
 combined.dat<-rbind(qualtrics.dat, ubr.dat)
+#nicer names
+names(combined.dat)<-c("species","number","year")
 
 #save output
 write.csv(combined.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.6.21.2017.cleaned.csv",row.names=FALSE)
