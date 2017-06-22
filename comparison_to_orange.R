@@ -73,3 +73,6 @@ compare.dat$z<-z.prop(compare.dat$mf.prop, compare.dat$oc.prop, compare.dat$mf.n
 
 #calculate p-values
 compare.dat$p<-2*pnorm(-abs(compare.dat$z)) #2-sided?
+
+#write csv
+write.csv(compare.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/compare.oc.mf.csv",row.names=FALSE)
