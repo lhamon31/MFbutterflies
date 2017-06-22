@@ -65,19 +65,7 @@ mf<-mf[ ! mf$observer.name %in% c("Test 1","test 2","Garth McBoatman", "Garth Mc
 #remove unknown species columns
 #we should keep them
 #but i'm not sure how to reconcile them
-mf$other.sp.text.1<-NULL
-mf$other.sp.num.1<-NULL
-mf$other.sp.text.2<-NULL
-mf$other.sp.num.2<-NULL
-mf$other.sp.text.3<-NULL
-mf$other.sp.num.3<-NULL
-mf$other.sp.text.4<-NULL
-mf$other.sp.num.4<-NULL
-mf$other.sp.text.5<-NULL
-mf$other.sp.num.5<-NULL
-mf$topics<-NULL
-mf$start.date<-NULL
-mf$end.date<-NULL
+mf<-mf[-c(109:119)]
 mf$recorded.date<-NULL
 
 ##gets rid of weird creepy Latin
@@ -148,7 +136,6 @@ mf$month
 ##reshape from wide to long 
 # might want to change the number of new.row.names based on how many rows (responses)
 #   there are in the data when you download it from Qualtrics.
-
 longdat<-reshape(mf,
                  varying = c("Papilio.glaucus", "Papilio.troilus", "Battus.philenor",
                              "Papilio.polyxenes", "Eurytides.marcellus", "Phoebis.sennae",  
@@ -212,6 +199,14 @@ longdat<-reshape(mf,
 
 row.names(longdat)=1:nrow(longdat) 
 
+#remove nas from spp columns otherwise they're counted as an entry
+longdat$num.indv<-sapply(longdat$num.indv, function(f){is.na(f)<-which(f == '');f}) #first convert blanks to NAs
+removenas <- function(data, desiredCols) {
+  completeVec <- complete.cases(data[, desiredCols])
+  return(data[completeVec, ])
+}
+longdat<-removenas(longdat,"num.indv")#drop rows with NA in num.indv column
+
 #eliminate more non-useful columns (may be modified as necessary) 
 #(also figure out what to do about unknown spp in previously dropped columsn)
 longdat <- longdat[ -c(1:13) ]
@@ -263,3 +258,7 @@ ubr.dat$species<-gsub(" ", ".", ubr.dat$species)
 
 #rbind qualtrics dat and ubr dat
 combined.dat<-rbind(qualtrics.dat, ubr.dat)
+
+#save output
+write.csv(combined.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.6.21.2017.cleaned.csv",row.names=FALSE)
+
