@@ -10,7 +10,7 @@ library(lubridate)
 
 #load data
 #this is based on laura's working directory. change as needed.
-mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.16.2017.csv")
+mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.29.2017.csv")
 
 ##cleaning data
 #Gets rid of the first row, which has nonsense import data
@@ -37,7 +37,7 @@ names(mf)<-c("start.date", "end.date", "response.type", "ip.address",
              "Satyrium.favonus", "Satyrium.liparops", "Asterocampa.celtis",
              "Asterocampa.clyton", "Danaus.plexippus", "Speyeria.cybele",
              "Euptoieta.claudia", "Agraulis.vanillae", "Libytheana.carinenta",
-             "Limenitis.artemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
+             "Limenitis.arthemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
              "Junonia.coenia", "Vanessa.atalanta", "Polygonia.interrogationis",
              "Polygonia.comma", "Nymphalis.antiopa", "Vanessa.virginiensis",
              "Vanessa.cardui", "Chlosyne.nycteis", "Hermeuptychia.sosybius",
@@ -149,7 +149,7 @@ longdat<-reshape(mf,
                              "Satyrium.favonus", "Satyrium.liparops", "Asterocampa.celtis",
                              "Asterocampa.clyton", "Danaus.plexippus", "Speyeria.cybele",
                              "Euptoieta.claudia", "Agraulis.vanillae", "Libytheana.carinenta",
-                             "Limenitis.artemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
+                             "Limenitis.arthemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
                              "Junonia.coenia", "Vanessa.atalanta", "Polygonia.interrogationis",
                              "Polygonia.comma", "Nymphalis.antiopa", "Vanessa.virginiensis",
                              "Vanessa.cardui", "Chlosyne.nycteis", "Hermeuptychia.sosybius",
@@ -179,7 +179,7 @@ longdat<-reshape(mf,
                            "Satyrium.favonus", "Satyrium.liparops", "Asterocampa.celtis",
                            "Asterocampa.clyton", "Danaus.plexippus", "Speyeria.cybele",
                            "Euptoieta.claudia", "Agraulis.vanillae", "Libytheana.carinenta",
-                           "Limenitis.artemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
+                           "Limenitis.arthemis.astyanax", "Limenitis.archippus", "Phyciodes.tharos",
                            "Junonia.coenia", "Vanessa.atalanta", "Polygonia.interrogationis",
                            "Polygonia.comma", "Nymphalis.antiopa", "Vanessa.virginiensis",
                            "Vanessa.cardui", "Chlosyne.nycteis", "Hermeuptychia.sosybius",
@@ -215,7 +215,7 @@ longdat <- longdat[ -c(1:13) ]
 #row.names=FALSE prevents it from having an extra row with just numbers.
 #spits out the csv in whatever folder the working directory is set.
 #This is laura's working directory
-write.csv(longdat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.16.2017.cleaned.csv",row.names=FALSE)
+write.csv(longdat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.cleaned.csv",row.names=FALSE)
 
 ####################################################################################
 ################ADDING IN THE UBR DATA for the purpose of comparing proportions
@@ -236,6 +236,14 @@ ubr.dat<-ubr.dat[,c("time.date", "speciesScientific")]
 ubr.dat$num.indv<-rep(1)
 #rename columns
 names(ubr.dat)<-c("date.observed","species","num.indv")
+
+#update ubr species name to modern parlance 
+ubr.dat$species<- gsub("Eurema nicippe", "Abaeis nicippe", ubr.dat$species)
+ubr.dat$species<- gsub("Eurema lisa", "Pyrisita lisa", ubr.dat$species)
+ubr.dat$species<- gsub("Limenitis arthemis", "Limenitis arthemis astyanax", ubr.dat$species)
+ubr.dat$species<- gsub("Everes comyntas", "Cupido comyntas", ubr.dat$species)
+ubr.dat$species<- gsub("ancyloxpha numitor", "Ancyloxypha numitor", ubr.dat$species)
+ubr.dat$species<- gsub("enodia anthedon", "Lethe anthedon", ubr.dat$species)
 
 #convert date of ubr.dat to just year
 ubr.dat$year<-format(as.Date(ubr.dat$date.observed, format="%Y-%m-%d"),"%Y")
@@ -266,5 +274,5 @@ combined.dat<-rbind(qualtrics.dat, ubr.dat)
 names(combined.dat)<-c("species","number","year")
 
 #save output
-write.csv(combined.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.6.21.2017.cleaned.csv",row.names=FALSE)
+write.csv(combined.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.cleaned.csv",row.names=FALSE)
 

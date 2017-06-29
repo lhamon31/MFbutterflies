@@ -10,36 +10,51 @@
       orangedat<-subset(ncdat, county=="Orange")
 
     #cleaned mf 
-    mfdat<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.6.21.2017.cleaned.csv")
+    mfdat<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.with.ubr.cleaned.csv")
 
 #subset appropriate columns for orangedat
 orangedat<-orangedat[,c("species","number","year")]
 
-#change variable formatting oforangedat to mach mfdat
+#change variable formatting of orangedat to match mfdat
+orangedat$species<-gsub(" ", ".", orangedat$species) #replaces space with "."
 orangedat<-data.frame(lapply(orangedat, function(v) {
   if (is.character(v)) return(tolower(v))
   else return(v)
 })) #makes all characters lowercase
-orangedat$species<-gsub(" ", ".", orangedat$species) #replaces space with "."
 
-#rename and reorder columns in mfdat
-names(mfdat)<-c("year","species","number")
+#subset 2016 data for each
+orangedat<-subset(orangedat,year==2016)
+mfdat<-subset(mfdat,year==2016)
 
-    
+#note repeated species due to misspellings in mfdat. I'm gonna reconcile this
+mfdat$species[mfdat$species == "ancyloxpha.numitor"] <- "ancyloxypha.numitor"
+mfdat$species[mfdat$species == "limenitis.artemis.astyanax"] <- "limenitis.arthemis.astyanax"
+  #i'm also gonna remove that "unknown" and vague, unhelpful "papilio"
+  mfdat<-mfdat[ which( ! mfdat$species %in% "unknown") , ]
+  mfdat<-mfdat[ which( ! mfdat$species %in% "papilio") , ] 
+  
+#find total number of obs. for each spp for that year
+orangedat<-aggregate(number ~ species, data=orangedat, FUN=sum)
+mfdat<-aggregate(number ~ species, data=mfdat, FUN=sum)
+
+#combine orangedat and mfdat
+compare.dat<-merge(mfdat,orangedat,by="species")
+colnames(compare.dat)<-c("species","mf.num","oc.num")
+
+
 #generate proportions for each row
 #ideally get this to go for every spp for every year
   #oc
       #create an empty dataframe
       species=unique(orangedat$species)
-      year=2015:2016
       oc.output<-data.frame(species=character(),
                             number=integer(),
                             proportion=integer())
 
       #generate for loop
       for (s in species) { 
-        oc.spp<-subset(orangedat,year=2016,species==s)
-        oc.others <- subset(orangedat, year=2016, !species==s)
+        oc.spp<-subset(orangedat,species==s)
+        oc.others <- subset(orangedat,!species==s)
         proportion<-sum(oc.spp$number)/(sum(oc.spp$number)+sum(oc.others$number))
         propoutput<-data.frame(species=s, number=sum(oc.spp$number), prop=proportion)
         oc.output = rbind(oc.output,propoutput)
@@ -48,27 +63,23 @@ names(mfdat)<-c("year","species","number")
   #mf
       #create an empty dataframe
       species=unique(mfdat$species)
-      year=2015:2016
       mf.output<-data.frame(species=character(),
                             number=integer(),
                             proportion=integer())
 
       #generate for loop
       for (s in species) { 
-      mf.spp<-subset(mfdat,year=2016,species==s)
-      mf.others <- subset(mfdat, year=2016, !species==s)
-      proportion<-sum(mf.spp$num.indv)/(sum(mf.spp$num.indv)+sum(mf.others$num.indv))
-      propoutput<-data.frame(species=s, number=sum(mf.spp$num.indv), prop=proportion)
+      mf.spp<-subset(mfdat,species==s)
+      mf.others <- subset(mfdat,!species==s)
+      proportion<-sum(mf.spp$number)/(sum(mf.spp$number)+sum(mf.others$number))
+      propoutput<-data.frame(species=s, number=sum(mf.spp$number), prop=proportion)
       mf.output = rbind(mf.output,propoutput)
     }
 
-#combine
- 
-
-#combine oc dat and mf dat
+#combine orangedat and mfdat
 compare.dat<-merge(mf.output,oc.output,by="species")
 colnames(compare.dat)<-c("species","mf.num","mf.prop","oc.num","oc.prop")
-
+      
 #makes a column for the diff. b/w proportions
 compare.dat$prop.difference<-(compare.dat$mf.prop-compare.dat$oc.prop)
 
@@ -85,6 +96,8 @@ compare.dat$z<-z.prop(compare.dat$mf.prop, compare.dat$oc.prop, compare.dat$mf.n
 
 #calculate p-values
 compare.dat$p<-2*pnorm(-abs(compare.dat$z)) #2-sided?
+
+t.test(compare.dat$mf.prop, compare.dat$oc.prop, alternative=c("two.sided"), mu=0, paired=FALSE, var.equal=FALSE, conf.level=0.95)
 
 #write csv
 write.csv(compare.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/compare.oc.mf.csv",row.names=FALSE)
