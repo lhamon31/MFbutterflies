@@ -97,7 +97,25 @@ compare.dat$z<-z.prop(compare.dat$mf.prop, compare.dat$oc.prop, compare.dat$mf.n
 #calculate p-values
 compare.dat$p<-2*pnorm(-abs(compare.dat$z)) #2-sided?
 
+#alternatively (this is what charlotte proposed)
+#create a for loop using this line:
 t.test(compare.dat$mf.prop, compare.dat$oc.prop, alternative=c("two.sided"), mu=0, paired=FALSE, var.equal=FALSE, conf.level=0.95)
 
+      #create an empty dataframe
+      species=unique(compare.dat$species)
+      compare.output<-data.frame(species=character(),
+                            tscore=integer(),
+                            pvalue=integer())
+      
+      #generate for loop
+      for (s in species) { 
+        ttest<-t.test(compare.dat$mf.prop, compare.dat$oc.prop, alternative=c("two.sided"),
+               mu=0, paired=FALSE, var.equal=FALSE, conf.level=0.95)
+        sumtest<-summary(ttest)
+        t<-sumtest$coefficients[3,1]
+        p<-sumtest$coefficients[3,3]
+        testoutput<-data.frame(species=s, tscore=t, pvalue=p)
+        compare.output = rbind(compare.output, testoutput)
+      }
 #write csv
 write.csv(compare.dat,file="C:/Users/lhamo/Documents/Biology/mf bflies 2017/compare.oc.mf.csv",row.names=FALSE)
