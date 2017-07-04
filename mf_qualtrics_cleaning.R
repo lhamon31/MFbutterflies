@@ -10,7 +10,7 @@ library(lubridate)
 
 #load data
 #this is based on laura's working directory. change as needed.
-mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.6.29.2017.csv")
+mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.csv")
 
 ##cleaning data
 #Gets rid of the first row, which has nonsense import data
