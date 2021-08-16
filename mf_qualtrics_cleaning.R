@@ -14,7 +14,7 @@ library(lubridate)
 
 #load latest version of qualtrics data
 #this is based on laura's working directory. change as needed.
-mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/qualtrics.responses.12.12.2018.csv")
+mf<-read.csv("C:/Users/lhamo/Documents/Biology/mf bflies 2017/qualtrics.data/MFbutterflies.qualtricsdownload.06.03.2021.csv")
 
 #Get rid of the first two rows, which has nonsense import data and extraneous variable names
 mf<-mf[-1:-2,] 
@@ -117,6 +117,8 @@ mf$obs1.in
 ##formatting the date columns
 #First, let's fix an early entry that lists the year as "216". This will fail to parse otherwise
 levels(mf$dateObserved)[match("08/21/216",levels(mf$dateObserved))] <- "08/21/2016"
+#Also correct Sebastion and Chloe dates that are listed as 1986 (instead of 2020)
+levels(mf$dateObserved)[match("3/29/1986",levels(mf$dateObserved))] <- "3/29/2020"
 #convert to date-time object
 mf$dateObserved<-parse_date_time(mf$dateObserved,orders='mdy') 
 #it will say that '1 failed to parse'. This is because this date is missing on one entry. 
@@ -132,7 +134,7 @@ mf$month<-month(mf$dateObserved,label = TRUE)
 longdat<-reshape(mf,
                  varying = c("Papilio.glaucus", "Papilio.troilus", "Battus.philenor",
                              "Papilio.polyxenes", "Eurytides.marcellus", "Phoebis.sennae",  
-                             "Colias.philodice", "Colias.eurythme", "Abaeis.nicippe",
+                             "Colias.philodice", "Colias.eurytheme", "Abaeis.nicippe",
                              "Pyrisita.lisa", "Unknown.sulphur", "Pieris.rapae", "Anthocharis.midea",
                              "Pontia.protodice", "Feniseca.tarquinius", "Cupido.comyntas",
                              "Celastrina.neglecta", "Celastrina.ladon","Unknown.blue",
@@ -162,7 +164,7 @@ longdat<-reshape(mf,
                  timevar="species",
                  times = c("Papilio.glaucus", "Papilio.troilus", "Battus.philenor",
                            "Papilio.polyxenes", "Eurytides.marcellus", "Phoebis.sennae",  
-                           "Colias.philodice", "Colias.eurythme", "Abaeis.nicippe",
+                           "Colias.philodice", "Colias.eurytheme", "Abaeis.nicippe",
                            "Pyrisita.lisa", "Unknown.sulphur", "Pieris.rapae", "Anthocharis.midea",
                            "Pontia.protodice", "Feniseca.tarquinius", "Cupido.comyntas",
                            "Celastrina.neglecta", "Celastrina.ladon","Unknown.blue",
@@ -200,6 +202,7 @@ removenas <- function(data, desiredCols) {
   return(data[completeVec, ])
 }
 longdat<-removenas(longdat,"num.indv")#drop rows with NA in num.indv column
+
 
 #if desired, the qualtrics data can be exported and examined at this point
 #for end-of-year statistics
@@ -245,7 +248,7 @@ qualtrics["subfamily_sci"] = ""
 qualtrics["source"] = "qualtrics" #specify data source
 
 #let's make sure our data types are uniform
-ubr$date.observed<-parse_date_time(ubr$date.observed,orders='ymd') 
+ubr$date.observed<-parse_date_time(ubr$date.observed,orders='ymd')
 
 #let's bind the ubr and qualtrics dat
 fulldat1 <- rbind (ubr, qualtrics)
@@ -322,10 +325,7 @@ legrand$date.observed<-parse_date_time(legrand$date.observed,orders='mdy')
 #bind legrand and fulldat (qualtrics + ubr)
 fulldat2 <- rbind(legrand, fulldat1facts)
 
-#ONE LAST THING. There are some (8) incorrect dates in qualtrics from 2020
-#we could try fixing these in the cleaning script
-#I made some changes to the original cleaning script, so I'd like to try this
-#in a freshly downloaded version of the qualtrics data
+
 
 ##Some leftover questions
 #is there overlap between ubr data and qualtrics data?
@@ -334,9 +334,11 @@ fulldat2 <- rbind(legrand, fulldat1facts)
 #converted Lethe appalachia -> Satyrodes appalachia 
 
 #export data
-write.csv(fulldat2, "C:/Users/lhamo/Documents/Biology/mf bflies 2017/myapp_legrand.kingsolver.mf.dat.7.26.2021.csv")
+write.csv(fulldat2, "C:/Users/lhamo/Documents/Biology/mf bflies 2017/myapp_legrand.kingsolver.mf.dat.6.3.2021.csv")
 
 ####################################################################################
 ################REFORMATTING TO ALIGN WITH CLOUDAPP FORMAT
 ####################################################################################
+
+
 
